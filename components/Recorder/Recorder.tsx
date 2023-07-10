@@ -1,3 +1,5 @@
+'use client';
+
 import Mic from "../../assets/logo/mic.png"
 import Arrow from "../assets/logo/arrow.png"
 import { useWhisper } from '@chengsokdara/use-whisper'
@@ -19,7 +21,7 @@ export default function Recorder() {
         startRecording,
         stopRecording,
       } = useWhisper({
-        apiKey: process.env.OPENAI_API_TOKEN,
+        apiKey: process.env.NEXT_PUBLIC_OPENAI_API_TOKEN,
         streaming: true,
         timeSlice: 1_000,
         whisperConfig: {
@@ -32,7 +34,7 @@ export default function Recorder() {
         setLoading(true);
         try {
             const apiEndpoint = "https://api.openai.com/v1/chat/completions";
-            const apiKey = process.env.OPENAI_API_TOKEN;
+            const apiKey = process.env.NEXT_PUBLIC_OPENAI_API_TOKEN;
     
             const headers = {
                 "Content-Type": "application/json",
