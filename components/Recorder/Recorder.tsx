@@ -19,7 +19,7 @@ export default function Recorder() {
         startRecording,
         stopRecording,
       } = useWhisper({
-        apiKey: "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",
+        apiKey: process.env.OPENAI_API_TOKEN,
         streaming: true,
         timeSlice: 1_000,
         whisperConfig: {
@@ -32,7 +32,7 @@ export default function Recorder() {
         setLoading(true);
         try {
             const apiEndpoint = "https://api.openai.com/v1/chat/completions";
-            const apiKey = "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";
+            const apiKey = process.env.OPENAI_API_TOKEN;
     
             const headers = {
                 "Content-Type": "application/json",
