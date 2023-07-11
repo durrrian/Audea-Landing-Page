@@ -30,6 +30,7 @@ export default function CardImage(
                     {title}
                 </Typography>
             </CardHeader>
+            
             <CardBody className="mx-4 hidden lg:block">
                 {
                     srcImg === "Promt" ? 
