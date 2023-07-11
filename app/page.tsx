@@ -11,6 +11,7 @@ import AppImg from '../components/CardImage/img/app.png';
 import AppImgMobile from '../components/CardImage/img/AppImgMobile.png';
 import bgPricing from '../components/CardImage/img/bgPricingNew.png';
 import Nav from '../components/Navbar/Navbar'
+import Footer from '@/components/Footer/Footer';
 
 const Page = () => (
     <div className="App bg-blackPrimary h-full overflow-hidden">
@@ -111,6 +112,8 @@ const Page = () => (
             </figcaption>
         </figure>
         </div>
+
+        <Footer />
     </div>
 )
 

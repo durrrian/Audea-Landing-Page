@@ -35,6 +35,10 @@ module.exports = {
         'linierMidBtn': '#95008A',
         'linierEndBtn': '#EB0000',
       },
+      height: {
+        '500px': '500px',
+        '550px': '550px'
+      }
     },
     borderWidth: {
       '1px': '1px',
