@@ -8,11 +8,18 @@ import Link from "next/link";
 import Image from "next/image";
  
 export default function Nav() {
-  // const scrollWithOffset = (el:any) => {
-  //     const yCoordinate = el.getBoundingClientRect().top + window.pageYOffset;
-  //     const yOffset = -80; 
-  //     window.scrollTo({ top: yCoordinate + yOffset, behavior: '' }); 
-  // }
+  const handleScroll = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    // first prevent the default behavior
+    e.preventDefault();
+    // get the href and remove everything before the hash (#)
+    const href = e.currentTarget.href;
+    const targetId = href.replace(/.*\#/, "");
+    // get the element by id and use scrollIntoView
+    const elem = document.getElementById(targetId);
+    elem?.scrollIntoView({
+      behavior: "smooth",
+    });
+  };
  
   const navList = (
     <ul className="mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-10 rounded-full border-1px border-lightBlue px-4 py-2 text-white">
@@ -21,28 +28,28 @@ export default function Nav() {
         variant="small"
         className="p-1 font-normal"
       >
-        <Link  href={'/#features'} > Features </Link>
+        <Link href={'/#features'} onClick={handleScroll} > Features </Link>
       </Typography>
       <Typography
         as="li"
         variant="small"
         className="p-1 font-normal"
       >
-        <Link  href={'/#useCase'} > Use Case </Link>
+        <Link  href={'/#useCase'} onClick={handleScroll}  > Use Case </Link>
       </Typography>
       <Typography
         as="li"
         variant="small"
         className="p-1 font-normal"
       >
-        <Link  href={'/#integeration'} > Integration </Link>
+        <Link  href={'/#integeration'} onClick={handleScroll} > Integration </Link>
       </Typography>
       <Typography
         as="li"
         variant="small"
         className="p-1 font-normal"
       >
-        <Link  href={'/#pricing'} > Pricing </Link>
+        <Link  href={'/#pricing'} onClick={handleScroll} > Pricing </Link>
       </Typography>
     </ul>
   );
@@ -53,7 +60,7 @@ export default function Nav() {
         <Navbar className="flex items-center justify-center h-16 px-4 md:px-0 font-semibold text-sm after:absolute after:inset-x-0 after:w-full after:h-12 after:shadow-hr bg-transparent">
             <div className="w-full xl:max-w-[1280px]">
                 <div className="container mx-auto flex items-center justify-between text-white">
-                    <Link  href={'/#'} className="flex flex-row gap-2 z-50" >
+                    <Link href={'/#top'} onClick={handleScroll} className="flex flex-row gap-2 z-50" >
                         <Image src={logo} className="w-10" alt="" />
                         <Typography
                         as="h1"

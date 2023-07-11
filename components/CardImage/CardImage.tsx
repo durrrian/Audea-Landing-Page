@@ -30,6 +30,7 @@ export default function CardImage(
                     {title}
                 </Typography>
             </CardHeader>
+            
             <CardBody className="mx-4 hidden lg:block">
                 {
                     srcImg === "Promt" ? 
@@ -37,7 +38,7 @@ export default function CardImage(
                     : srcImg === "Writing" ?
                     <Image src={Writing} alt="" className="h-40 lg:h-fit" />
                     : srcImg === "Language" ?
-                    <Image src={Language} alt="" className="h-40 lg:h-[465px]" />
+                    <Image src={Language} alt="" className="h-40 lg:h-[465px] lg:w-fit" />
                     : srcImg === "Audio" ?
                     <Image src={Audio} alt="" className="h-40 lg:h-fit" />
                     :

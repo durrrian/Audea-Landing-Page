@@ -38,6 +38,9 @@ module.exports = {
       height: {
         '500px': '500px',
         '550px': '550px'
+      },
+      width: {
+        '300px': '300px'
       }
     },
     borderWidth: {
