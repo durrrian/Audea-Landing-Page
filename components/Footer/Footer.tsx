@@ -70,7 +70,7 @@ export default function Footer() {
                 </ul>
             </div>
         </div>
-        <div className="flex flex-row items-center gap-4 mt-10 lg:mt-16">
+        <div className="flex flex-row items-center gap-4 mt-10 lg:mt-16 mb-4">
             <a href="https://github.com/Audeaid" target="_blank">
                 <Image src={git} alt="logo-audea" className="w-5" />
             </a>

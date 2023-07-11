@@ -14,7 +14,7 @@ import Nav from '../components/Navbar/Navbar'
 import Footer from '@/components/Footer/Footer';
 
 const Page = () => (
-    <div className="App bg-blackPrimary h-full overflow-hidden">
+    <div className="App bg-blackPrimary h-full" id="top">
         <Nav />
         <div className="flex flex-col items-center justify-center mb-4 mt-20 gap-6 mx-2 lg:mx-20">
 
@@ -36,7 +36,7 @@ const Page = () => (
             id="features"
             />
 
-            <div className="flex scroll-hide flex-row lg:flex-col overflow-auto gap-56 sm:gap-2 md:gap-4 lg:gap-0 lg:overflow-hidden w-screen lg:w-full mr-8 lg:mr-0">
+            <div className="flex scroll-hide flex-row lg:flex-col overflow-x-auto overflow-y-hidden gap-56 sm:gap-2 md:gap-4 lg:gap-0 lg:overflow-hidden w-screen lg:w-full mr-8 lg:mr-0">
                 <div className="flex flex-row gap-4 items-center w-screen lg:w-full ml-10 lg:ml-0">
                     <CardImage title="Select the prompt style" srcImg="Promt" customStyle="lg:h-[500px]" />
                     <CardImage title="Choose the writing style" srcImg="Writing" customStyle="lg:h-[500px] lg:w-1/2" />
@@ -48,7 +48,7 @@ const Page = () => (
                 </div>
             </div>
 
-            <div className="mt-10 hidden md:block">
+            <div className="mt-10 hidden md:flex md:flex-col md:gap-5">
                 <HeaderSection 
                 title="And yes, it can fit any purpose," 
                 spaceTitle="no matter what you're up to"
@@ -58,7 +58,7 @@ const Page = () => (
                 />
             </div>
 
-            <div className="mt-10 block md:hidden">
+            <div className="mt-10 md:hidden flex flex-col gap-5">
                 <HeaderSection 
                 title="And yes, it can fit any purpose, no matter what you're up to" 
                 spaceTitle=""
@@ -94,7 +94,7 @@ const Page = () => (
                     src={bgPricing}
                     alt="nature image"
                 />
-                <figcaption className="absolute top-96 lg:-bottom-20 md:mt-40 lg:mt-2 left-3 right-3 md:left-40 md:right-40 lg:left-60 lg:right-60">
+                <figcaption className="absolute top-96 lg:-bottom-20 md:mt-40 lg:mt-10 left-3 right-3 md:left-40 md:right-40 lg:left-60 lg:right-60">
                     <HeaderSection 
                     title="Audea has 3 pricing options" 
                     spaceTitle=""
