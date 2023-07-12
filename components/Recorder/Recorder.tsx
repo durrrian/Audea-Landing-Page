@@ -8,6 +8,7 @@ import { Typography } from "@material-tailwind/react";
 import axios from "axios";
 import { Player } from '@lottiefiles/react-lottie-player';
 import Image from "next/image";
+import ModalVideo from "../ModalVideo/ModalVideo";
 
 export default function Recorder() {
     const [isRecording, setIsRecording] = useState(false);
@@ -171,9 +172,15 @@ export default function Recorder() {
                 </div>
                 :
                 <>
-                <button className="bg-transparent underline border-0 text-linierBlue">
-                    See how Audea works
-                </button>
+                <ModalVideo
+                    thumb="asdasd"
+                    thumbWidth={768}
+                    thumbHeight={432}
+                    thumbAlt="Modal video thumbnail"
+                    video="https://www.loom.com/embed/f8c9fbd00f24455897684a4b0c888a14?sid=22a16c03-ff27-4576-b1f9-e0a93038be2a?hide_owner=true&hide_share=true&hide_title=true&hideEmbedTopBar=true"
+                    videoWidth={1920}
+                    videoHeight={1080} 
+                />
                 <Image src={Arrow} alt="" />
                 <button className="bg-gradient-to-r text-white font-bold from-linierPurple to-linierMidBlue rounded-full"
                 onClick={() => {setIsRecording(true); startRecording()}}
