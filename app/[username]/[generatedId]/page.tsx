@@ -3,6 +3,8 @@ import { notFound } from 'next/navigation';
 import { Metadata, ResolvingMetadata } from 'next';
 import Client from './lib';
 
+export const revalidate = 60;
+
 type Props = {
   params: { username: string; generatedId: string };
   searchParams: { [key: string]: string | string[] | undefined };
