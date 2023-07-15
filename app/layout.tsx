@@ -109,6 +109,8 @@ const TTInterfaces = localFont({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://audea.id'),
+
   title: 'Audea',
 
   description: 'Transform your messy thoughts into structured notes.',
@@ -138,11 +140,11 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Audea',
     description: 'Transform your messy thoughts into structured notes.',
-    url: 'https://audea.id',
+    url: '/',
     siteName: 'Audea',
     images: [
       {
-        url: 'https://audea.id/meta.jpg',
+        url: '/meta.jpg',
         width: 1200,
         height: 630,
       },
@@ -158,7 +160,7 @@ export const metadata: Metadata = {
     siteId: '1467726470533754880',
     creator: '@Audea_app',
     creatorId: '1467726470533754880',
-    images: ['https://audea.id/meta.jpg'],
+    images: ['/meta.jpg'],
   },
 
   icons: {

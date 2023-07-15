@@ -38,9 +38,9 @@ export async function generateMetadata(
         openGraph: {
           title: content.title,
           description: content.description,
-          url: `https://audea.id/@${content.username}/${content.generatedId}`,
+          url: `/@${content.username}/${content.generatedId}`,
           images: [
-            `https://audea.id/og?title=${content.title}&username=${content.username}`,
+            `/og?title=${content.title}&username=${content.username}`,
             ...previousImagesOG,
           ],
         },
@@ -49,7 +49,7 @@ export async function generateMetadata(
           title: content.title,
           description: content.description,
           images: [
-            `https://audea.id/og?title=${content.title}&username=${content.username}`,
+            `/og?title=${content.title}&username=${content.username}`,
             ...previousImagesTwitter,
           ],
         },
