@@ -39,7 +39,7 @@ export const getContent = (
             generatedId,
             username,
           },
-          fetchPolicy: 'no-cache',
+          fetchPolicy: 'network-only',
         });
 
         resolve(getSharedContent);
