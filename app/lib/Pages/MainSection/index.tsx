@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { Heading, SubHeading } from '../components';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import DemoDialog from './DemoDialog';
 import Arrow from './Arrow';
 import RecordingButton from './RecordingButton';
@@ -34,8 +34,6 @@ export default function MainSection() {
 
   const [remainingTime, setRemainingTime] = useState(0);
 
-  const [uploading, setUploading] = useState(false);
-
   const [trackUpload, setTrackUpload] = useState('');
 
   const [displayResult, setDisplayResult] = useState<IResponse[]>([
@@ -43,8 +41,6 @@ export default function MainSection() {
   ]);
 
   const [displayTranscription, setDisplayTranscription] = useState('');
-
-  const [audioFile, setAudioFile] = useState<File | null>(null);
 
   const waveformRef = useRef<HTMLDivElement>(null);
   const wavesurferRef = useRef<WaveSurfer | null>(null);
@@ -64,36 +60,26 @@ export default function MainSection() {
     if (recordRef.current) {
       recordRef.current.stopRecording();
     }
+
+    setRemainingTime(0);
   };
 
   const startRecording = () => {
     setRemainingTime(180); // 3 minutes in seconds
 
     if (streamRef.current) {
-      const supportWebM = MediaRecorder.isTypeSupported('audio/webm');
+      mediaRecorder.current = new MediaRecorder(streamRef.current);
 
-      const media = new MediaRecorder(streamRef.current, {
-        mimeType: supportWebM ? 'audio/webm' : 'audio/mp4',
+      mediaRecorder.current.addEventListener('dataavailable', async (e) => {
+        const audioChunks: Blob[] = [];
+        audioChunks.push(e.data);
+
+        const file = new File(audioChunks, 'audio.mpeg', {
+          type: 'audio/mpeg',
+        });
+
+        sendFile(file);
       });
-
-      mediaRecorder.current = media;
-      let localAudioChunks: Blob[] = [];
-
-      mediaRecorder.current.ondataavailable = (event) => {
-        if (typeof event.data === 'undefined' || event.data.size === 0) return;
-        localAudioChunks.push(event.data);
-      };
-
-      mediaRecorder.current.onstop = () => {
-        if (supportWebM) {
-          const file = new File(localAudioChunks, 'audio.webm', {
-            type: 'audio/webm',
-          });
-
-          setAudioFile(file);
-        }
-        setRemainingTime(0);
-      };
 
       mediaRecorder.current.start();
 
@@ -130,35 +116,40 @@ export default function MainSection() {
     }
   }, [startProgress]);
 
-  useEffect(() => {
-    if (uploading && audioFile) {
-      (async () => {
-        try {
-          setTrackUpload('Transcribing your audio...');
+  const sendFile = async (file: File) => {
+    try {
+      setTrackUpload('Transcribing your audio...');
 
-          const whisperResponse = await whisper(audioFile);
+      const whisperResponse = await whisper(file);
 
-          setDisplayTranscription(whisperResponse.text);
+      setDisplayTranscription(whisperResponse.text);
 
-          setTrackUpload('Transcription is being analysed by AI...');
+      setTrackUpload('Transcription is being analysed by AI...');
 
-          const userPrompt = `Audio transcription:\n${whisperResponse.text}`;
+      const userPrompt = `Audio transcription:\n${whisperResponse.text}`;
 
-          const gptResponse = await gpt(userPrompt);
+      const gptResponse = await gpt(userPrompt);
 
-          const actualGptResponse = gptResponse.choices[0].message.content;
-          const jsonGptResponse: IResponse[] = JSON.parse(actualGptResponse);
+      const actualGptResponse = gptResponse.choices[0].message.content;
+      const jsonGptResponse: IResponse[] = JSON.parse(actualGptResponse);
 
-          setDisplayResult(jsonGptResponse);
+      setDisplayResult(jsonGptResponse);
 
-          setCurrentProgress('display-result');
-        } catch (error) {
-          setCurrentProgress('error');
-          console.error(error);
-        }
-      })();
+      setCurrentProgress('display-result');
+    } catch (error) {
+      setCurrentProgress('error');
+      console.error(error);
     }
-  }, [uploading, audioFile]);
+  };
+
+  useLayoutEffect(() => {
+    if (typeof window !== 'undefined') {
+      import('audio-recorder-polyfill').then((AudioRecorderPolyfill) => {
+        window.MediaRecorder =
+          AudioRecorderPolyfill.default || AudioRecorderPolyfill;
+      });
+    }
+  }, []);
 
   return (
     <section className="max-w-[1300px] mx-auto text-landingPage-textSurfaceVariant dark:text-landingPage-textSurfaceVariant flex flex-col items-center justify-center text-center gap-4 pt-6 px-4 min-h-[82vh]">
@@ -251,7 +242,6 @@ export default function MainSection() {
                 onClick={() => {
                   stopRecording();
                   setCurrentProgress('processing-audio');
-                  setUploading(true);
                 }}
                 type="button"
                 className="w-fit h-fit p-4 rounded-full text-white bg-red-500"
@@ -381,16 +371,13 @@ export default function MainSection() {
 const getMicrophonePermission = (): Promise<MediaStream> => {
   return new Promise((resolve, reject) => {
     (async () => {
-      if (!('MediaRecorder' in window)) {
+      //@ts-ignore
+      if (MediaRecorder.notSupported) {
         reject();
         toast.error('The MediaRecorder API is not supported in your browser.');
         return;
       }
 
-      if (!MediaRecorder.isTypeSupported('audio/webm')) {
-        reject();
-        toast.error('Currently, recording on Safari in unavailable');
-      }
       try {
         const mediaStream = await navigator.mediaDevices.getUserMedia({
           audio: true,

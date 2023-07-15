@@ -38,7 +38,7 @@ export async function generateMetadata(
           description: content.description,
           url: `https://audea.id/@${content.username}/${content.generatedId}`,
           images: [
-            `https://audea.id/og?title=${content.title}`,
+            `https://audea.id/og?title=${content.title}&username=${content.username}`,
             ...previousImagesOG,
           ],
         },
@@ -47,7 +47,7 @@ export async function generateMetadata(
           title: content.title,
           description: content.description,
           images: [
-            `https://audea.id/og?title=${content.title}`,
+            `https://audea.id/og?title=${content.title}&username=${content.username}`,
             ...previousImagesTwitter,
           ],
         },
