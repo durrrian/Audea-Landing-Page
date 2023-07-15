@@ -217,6 +217,9 @@ export default function MainSection() {
                         .catch((error) => {
                           console.error('Recording error:', error);
                         });
+                    })
+                    .catch(() => {
+                      setCurrentProgress('error');
                     });
                 }}
               />
