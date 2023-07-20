@@ -183,7 +183,7 @@ export default function RootLayout({
     <ApolloNextClient>
       <ViewportProvider>
         <DarkModeProvider>
-          <html lang="en">
+          <html lang="en" suppressHydrationWarning={true}>
             <body className={TTInterfaces.className}>{children}</body>
           </html>
         </DarkModeProvider>
