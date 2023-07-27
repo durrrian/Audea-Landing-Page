@@ -1,7 +1,7 @@
 'use client';
 
 import { Badge } from '@/components/ui/badge';
-import { pricingList } from '../../utils';
+import { pricingList } from '../../lib/utils';
 import cn from '@/utils/cn';
 import { gql, useQuery } from '@apollo/client';
 import LoadingSpinner from '@/components/LoadingSpinner';
