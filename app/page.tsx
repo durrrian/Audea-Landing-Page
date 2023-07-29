@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import Client from './client';
 import Navbar from './lib/Navbar';
 import Footer from './lib/Footer';
