@@ -1,7 +1,7 @@
 import { getContent } from './getContent';
 import { notFound } from 'next/navigation';
 import { Metadata, ResolvingMetadata } from 'next';
-import Client from './lib';
+import Client from './client';
 
 export const revalidate = 1;
 
