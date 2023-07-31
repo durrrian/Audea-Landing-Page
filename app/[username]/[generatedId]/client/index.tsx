@@ -12,6 +12,14 @@ const roboto = Roboto({ subsets: ['latin'], weight: ['400'] });
 const openSans = Open_Sans({ subsets: ['latin'], weight: ['400'] });
 const merriweather = Merriweather({ subsets: ['latin'], weight: ['400'] });
 
+type Content = {
+  heading: string | null;
+  items: {
+    type: 'paragraph' | 'bulleted_list_item';
+    content: string;
+  }[];
+};
+
 export default function Client({ content }: { content: IGetContent }) {
   const [font, setFont] = useState('');
 
@@ -31,6 +39,26 @@ export default function Client({ content }: { content: IGetContent }) {
     }
   };
 
+  const finalGroupedContent: Content[] = [];
+  let currentGroup: Content | undefined;
+
+  for (const item of parseContent) {
+    if (item.type === 'title') {
+      continue; // Skip the title item
+    }
+
+    if (item.type.startsWith('heading')) {
+      currentGroup = { heading: item.content, items: [] };
+      finalGroupedContent.push(currentGroup);
+    } else {
+      if (!currentGroup) {
+        currentGroup = { heading: null, items: [] };
+        finalGroupedContent.push(currentGroup);
+      }
+      currentGroup.items.push(item);
+    }
+  }
+
   return (
     <main className="max-w-[1000px] mx-auto pb-20 mt-10 md:px-0 px-4 space-y-8">
       <h1 className="text-3xl font-bold">{content.title}</h1>
@@ -47,18 +75,21 @@ export default function Client({ content }: { content: IGetContent }) {
       </section>
 
       <section className={`text-justify space-y-4 ${renderFont(font)}`}>
-        {parseContent.map((v, i) => {
-          if (v.type === 'heading_1') {
-            return <h2 key={i}>{v.content}</h2>;
-          } else if (v.type === 'heading_2') {
-            return <h3 key={i}>{v.content}</h3>;
-          } else if (v.type === 'paragraph') {
-            return <p key={i}>{v.content}</p>;
-          } else if (v.type === 'bulleted_list_item') {
-            return <li key={i}>{v.content}</li>;
-          } else {
-            return <></>;
-          }
+        {finalGroupedContent.map((v, i) => {
+          return (
+            <section key={i} className="space-y-2 text-justify">
+              {v.heading && (
+                <h3 className="text-xl font-medium">{v.heading}</h3>
+              )}
+              {v.items.map((v, k) => {
+                if (v.type === 'paragraph') {
+                  return <p key={`${k}-heading-${i}`}>{v.content}</p>;
+                } else if (v.type === 'bulleted_list_item') {
+                  return <li key={`${k}-heading-${i}`}>{v.content}</li>;
+                }
+              })}
+            </section>
+          );
         })}
       </section>
 
