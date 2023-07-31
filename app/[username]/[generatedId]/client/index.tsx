@@ -115,7 +115,7 @@ export default function Client({ content }: { content: IGetContent }) {
 
       <MadeWithAudea username={content.username} />
 
-      <Button className={cn('print:hidden')} variant="outline" asChild>
+      <Button className={cn('print:hidden mx-auto')} variant="outline" asChild>
         <a className="flex items-center justify-center" href="/">
           <ArrowLeft className="mr-2 w-4 h-4" />
           Go back to Audea
