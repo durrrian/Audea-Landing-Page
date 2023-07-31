@@ -7,6 +7,9 @@ import Toast from '@/components/Toast';
 import { Roboto, Open_Sans, Merriweather } from 'next/font/google';
 import { useState } from 'react';
 import MadeWithAudea from './MadeWithAudea';
+import { Button } from '@/components/ui/button';
+import { ArrowLeft } from 'lucide-react';
+import cn from '@/utils/cn';
 
 const roboto = Roboto({ subsets: ['latin'], weight: ['400'] });
 const openSans = Open_Sans({ subsets: ['latin'], weight: ['400'] });
@@ -74,12 +77,24 @@ export default function Client({ content }: { content: IGetContent }) {
         />
       </section>
 
-      <section className={`text-justify space-y-4 ${renderFont(font)}`}>
+      <section className={`text-justify space-y-8 ${renderFont(font)}`}>
         {finalGroupedContent.map((v, i) => {
+          const isHeading =
+            v.heading === 'Summary' ||
+            v.heading === 'Additional Info' ||
+            v.heading === 'Ringkasan' ||
+            v.heading === 'Info Tambahan';
+
           return (
             <section key={i} className="space-y-2 text-justify">
               {v.heading && (
-                <h3 className="text-xl font-medium">{v.heading}</h3>
+                <h3
+                  className={
+                    isHeading ? 'text-2xl font-bold' : 'text-xl font-medium'
+                  }
+                >
+                  {v.heading}
+                </h3>
               )}
               {v.items.map((v, k) => {
                 if (v.type === 'paragraph') {
@@ -99,6 +114,13 @@ export default function Client({ content }: { content: IGetContent }) {
       </p>
 
       <MadeWithAudea username={content.username} />
+
+      <Button className={cn('print:hidden')} variant="outline" asChild>
+        <a className="flex items-center justify-center" href="/">
+          <ArrowLeft className="mr-2 w-4 h-4" />
+          Go back to Audea
+        </a>
+      </Button>
 
       <Toast />
     </main>
